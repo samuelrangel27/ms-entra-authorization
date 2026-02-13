@@ -16,7 +16,7 @@ var app = builder.Build();
 app.UseCors("AllowReactApp");
 
 // Roll dice endpoint
-app.MapPost("/roll-dice", (int numberOfDice) =>
+app.MapGet("/roll-dice", (int numberOfDice) =>
 {
     if (numberOfDice < 1 || numberOfDice > 100)
     {
@@ -32,6 +32,6 @@ app.MapPost("/roll-dice", (int numberOfDice) =>
     }
 
     return Results.Ok(diceValues);
-});
+}).RequireCors("AllowReactApp");
 
 app.Run();

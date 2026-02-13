@@ -22,10 +22,7 @@ function App() {
 
     try {
       const response = await fetch(`http://localhost:5000/roll-dice?numberOfDice=${numberOfDice}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        method: 'GET',
       });
 
       if (!response.ok) {
@@ -58,7 +55,7 @@ function App() {
 
         <div className="controls">
           {error && <div className="error">{error}</div>}
-          
+
           <div className="control-group">
             <div className="form-group">
               <label htmlFor="numberOfDice" className="form-label">
