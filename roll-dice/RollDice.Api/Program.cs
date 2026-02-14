@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Identity.Web;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add CORS policy
@@ -10,11 +13,15 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod();
     });
 });
-
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
+builder.Services.AddAuthorization();
 var app = builder.Build();
 
 app.UseCors("AllowReactApp");
-
+app.UseAuthentication();
+app.UseAuthorization();
 // Roll dice endpoint
 app.MapGet("/roll-dice", (int numberOfDice) =>
 {
@@ -32,6 +39,6 @@ app.MapGet("/roll-dice", (int numberOfDice) =>
     }
 
     return Results.Ok(diceValues);
-}).RequireCors("AllowReactApp");
+}).RequireCors("AllowReactApp").RequireAuthorization();
 
 app.Run();
