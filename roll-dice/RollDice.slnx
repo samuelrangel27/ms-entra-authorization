@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="./RollDice.Api/RollDice.Api.csproj" />
+  <Project Path="RollDice.AppHost/RollDice.AppHost.csproj" />
+  <Project Path="RollDice.ServiceDefaults/RollDice.ServiceDefaults.csproj" />
+</Solution>
