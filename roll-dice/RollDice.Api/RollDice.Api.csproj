@@ -10,4 +10,8 @@
     <PackageReference Include="Microsoft.Identity.Web" Version="4.4.0-preview.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RollDice.ServiceDefaults\RollDice.ServiceDefaults.csproj" />
+  </ItemGroup>
+
 </Project>
