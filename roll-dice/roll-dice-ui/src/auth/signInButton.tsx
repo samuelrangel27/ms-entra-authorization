@@ -1,0 +1,16 @@
+import { useMsal } from "@azure/msal-react";
+import { loginRequest } from "./authConfig";
+
+export const SignInButton = () => {
+    const { instance } = useMsal();
+
+    const handleLogin = () => {
+        instance.loginRedirect(loginRequest).catch(e => console.error(e));
+    };
+
+    return (
+        <button onClick={handleLogin} className="btn">
+            <span>🔐</span> Sign In
+        </button>
+    );
+};

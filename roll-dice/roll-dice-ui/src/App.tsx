@@ -1,10 +1,6 @@
 import { useState } from 'react';
 import './App.css';
 
-interface DiceResult {
-  values: number[];
-}
-
 function App() {
   const [numberOfDice, setNumberOfDice] = useState<number>(1);
   const [diceValues, setDiceValues] = useState<number[]>([]);

@@ -80,35 +80,6 @@
   box-shadow: 0 0 0 3px rgba(159, 122, 234, 0.2);
 }
 
-.btn {
-  padding: 0.75rem 2rem;
-  background: linear-gradient(135deg, var(--primary-purple), var(--light-purple));
-  border: none;
-  border-radius: 0.5rem;
-  color: white;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  box-shadow: 0 4px 15px rgba(107, 70, 193, 0.4);
-}
-
-.btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(107, 70, 193, 0.6);
-}
-
-.btn:active {
-  transform: translateY(0);
-}
-
-.btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
-}
 
 .dice-grid {
   display: grid;
