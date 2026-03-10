@@ -1,7 +1,10 @@
 import { useState } from 'react';
+import { useMsal } from "@azure/msal-react";
+import { loginRequest } from "./auth/authConfig";
 import './App.css';
 
 function App() {
+  const { instance } = useMsal();
   const [numberOfDice, setNumberOfDice] = useState<number>(1);
   const [diceValues, setDiceValues] = useState<number[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -17,8 +20,21 @@ function App() {
     setError('');
 
     try {
+      const activeAccount = instance.getActiveAccount();
+      if (!activeAccount) {
+        throw Error("No active account! Verify a user has been signed in and setActiveAccount has been called.");
+      }
+
+      const tokenResponse = await instance.acquireTokenSilent({
+        ...loginRequest,
+        account: activeAccount
+      });
+
       const response = await fetch(`http://localhost:5000/roll-dice?numberOfDice=${numberOfDice}`, {
         method: 'GET',
+        headers: {
+          Authorization: `Bearer ${tokenResponse.accessToken}`
+        }
       });
 
       if (!response.ok) {
