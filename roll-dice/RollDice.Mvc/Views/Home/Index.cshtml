@@ -1,0 +1,105 @@
+﻿@{
+    ViewData["Title"] = "Dice Roller";
+}
+
+<div class="app">
+    <div class="container">
+        <header class="header">
+            <h1>🎲 Dice Roller</h1>
+            <p>Roll the dice and test your luck!</p>
+        </header>
+
+        <div class="controls">
+            <div id="error-message" class="error" style="display: none;"></div>
+
+            <div class="control-group">
+                <div class="form-group">
+                    <label for="numberOfDice" class="form-label">
+                        Number of Dice
+                    </label>
+                    <input
+                        id="numberOfDice"
+                        type="number"
+                        min="1"
+                        max="100"
+                        value="1"
+                        class="form-input"
+                    />
+                </div>
+                <button
+                    id="rollDiceBtn"
+                    class="btn"
+                >
+                    Roll Dice
+                </button>
+            </div>
+        </div>
+
+        <div id="empty-state" class="empty-state">
+            <div class="empty-state-icon">🎲</div>
+            <div class="empty-state-text">
+                Enter the number of dice and click "Roll Dice" to get started
+            </div>
+        </div>
+
+        <div id="dice-grid" class="dice-grid" style="display: none;">
+            <!-- Dice cards will be injected here via JavaScript -->
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            const $numberOfDice = $('#numberOfDice');
+            const $rollDiceBtn = $('#rollDiceBtn');
+            const $errorMessage = $('#error-message');
+            const $emptyState = $('#empty-state');
+            const $diceGrid = $('#dice-grid');
+
+            function rollDice() {
+                const count = parseInt($numberOfDice.val()) || 1;
+                
+                if (count < 1 || count > 100) {
+                    $errorMessage.text('Please enter a number between 1 and 100').show();
+                    return;
+                }
+
+                $errorMessage.hide();
+                $rollDiceBtn.prop('disabled', true).text('Rolling...');
+
+                $.ajax({
+                    url: '/roll-dice?numberOfDice=' + count,
+                    type: 'GET',
+                    success: function(values) {
+                        $emptyState.hide();
+                        $diceGrid.empty().show();
+
+                        values.forEach(function(value) {
+                            const diceCard = `
+                                <div class="dice-card">
+                                    <div class="dice-value">${value}</div>
+                                </div>
+                            `;
+                            $diceGrid.append(diceCard);
+                        });
+                    },
+                    error: function() {
+                        $errorMessage.text('Failed to roll dice.').show();
+                    },
+                    complete: function() {
+                        $rollDiceBtn.prop('disabled', false).text('Roll Dice');
+                    }
+                });
+            }
+
+            $rollDiceBtn.click(rollDice);
+
+            $numberOfDice.keypress(function(e) {
+                if (e.which === 13) { // Enter key
+                    rollDice();
+                }
+            });
+        });
+    </script>
+}
